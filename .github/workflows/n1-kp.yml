@@ -16,8 +16,8 @@ on:
     inputs:
       ssh:
         description: 'SSH connection to Actions'
-        required: false
-        default: 'false'
+        required: true
+        default: 'true'
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
@@ -149,16 +149,16 @@ jobs:
         cp openwrt/bin/targets/armvirt/64/openwrt-armvirt-64-default-rootfs.tar.gz n1
         sudo cp -r n1 /mnt
 
-    - name: Image - build docker image and upload to docker hub
-      run: |
-        cd /mnt/n1
-        sudo bash build.sh
-        gzip -dc /mnt/n1/opt/imgs/*.gz | docker load
-        docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
-        docker tag itvro/openwrt-aarch64 itvro/openwrt-aarch64:${{ env.TAG }}
-        docker push itvro/openwrt-aarch64
-        docker push itvro/openwrt-aarch64:${{ env.TAG }}
-        echo "::set-output name=status::success"
+#    - name: Image - build docker image and upload to docker hub
+#      run: |
+#        cd /mnt/n1
+#        sudo bash build.sh
+#        gzip -dc /mnt/n1/opt/imgs/*.gz | docker load
+#        docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+#        docker tag itvro/openwrt-aarch64 itvro/openwrt-aarch64:${{ env.TAG }}
+ #       docker push itvro/openwrt-aarch64
+#        docker push itvro/openwrt-aarch64:${{ env.TAG }}
+#        echo "::set-output name=status::success"
        
 #    - name: Upload - push to artifact file
 #      uses: actions/upload-artifact@v1
